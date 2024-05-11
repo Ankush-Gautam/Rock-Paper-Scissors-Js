@@ -1,28 +1,20 @@
 //global variables
+const ROCK = "rock";
+const PAPER = "paper";
+const SCISSORS = "scissors";
+
 let humanScore = 0;
 let computerScore = 0;
 
 // logic to get the computer choice
 function getComputerChoice() {
-  let randomChoice = Math.floor(Math.random() * 10); //gives number from 0 to 9
+  const choices = [ROCK, PAPER, SCISSORS];
 
-  switch (randomChoice) {
-    case 1:
-    case 3:
-    case 5:
-      return "rock";
+  //generate random index from 0 to 2
+  let randomIndex = Math.floor(Math.random() * choices.length);
 
-    case 0:
-    case 2:
-    case 7:
-    case 9:
-      return "paper";
-
-    case 4:
-    case 6:
-    case 8:
-      return "scissors";
-  }
+  //return the choices corresponding to the index
+  return choices[randomIndex];
 }
 
 //logic to get the human choice
@@ -35,37 +27,25 @@ function getHumanChoice() {
 
 //logic to play a single round
 function playRound(humanChoice, computerChoice) {
-  if (humanChoice == "rock") {
-    if (computerChoice == "rock") {
-      return "It's Draw.";
-    } else if (computerChoice == "paper") {
-      computerScore++;
-      return "You lose! Paper beats Rock.";
-    } else {
-      humanScore++;
-      return "You won! Rock beats Scissors.";
-    }
-  } else if (humanChoice == "paper") {
-    if (computerChoice == "paper") {
-      return "It's Draw.";
-    } else if (computerChoice == "scissors") {
-      computerScore++;
-      return "You lose! Scissors beat Paper.";
-    } else {
-      humanScore++;
-      return "You won! Paper beats Rock.";
-    }
-  } else if (humanChoice == "scissors") {
-    if (computerChoice == "scissors") {
-      return "It's Draw.";
-    } else if (computerChoice == "rock") {
-      computerScore++;
-      return "You lose! Rock beats Scissors.";
-    } else {
-      humanScore++;
-      return "You won! Scissors beat Paper.";
-    }
-  } else return "Invalid Input, Please check the spellings.";
+  if (![ROCK, PAPER, SCISSORS].includes(humanChoice)) {
+    throw new Error("Invalid input. Please choose rock, paper or scissors.");
+  }
+
+  if (humanChoice == computerChoice) {
+    return "It's a tie!";
+  }
+
+  if (
+    (humanChoice == ROCK && computerChoice == SCISSORS) ||
+    (humanChoice == PAPER && computerChoice == ROCK) ||
+    (humanChoice == SCISSORS && computerChoice == PAPER)
+  ) {
+    humanScore++;
+    return `You won! ${humanChoice} beats ${computerChoice}`;
+  } else {
+    computerScore++;
+    return `You lose! ${computerChoice} beats ${humanChoice}`;
+  }
 }
 
 //logic to play the entire game
