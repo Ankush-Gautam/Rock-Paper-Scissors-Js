@@ -12,6 +12,9 @@ const paperBtn = document.querySelector("#paperBtn");
 const scissorsBtn = document.querySelector("#scissorsBtn");
 const startBtn = document.querySelector("#startBtn");
 
+const scoreBoard = document.querySelector("#score-board");
+const result = document.querySelector("#result");
+
 // get computer choice
 function getComputerChoice() {
   const choices = [ROCK, PAPER, SCISSORS];
@@ -54,24 +57,18 @@ function playRound(playerChoice, computerChoice) {
 
 //logic to play the entire game
 async function playGame() {
-  console.log("The Game of 5 Rounds begin...");
-
   for (let round = 1; round <= 5; round++) {
-    console.log(
-      `Round = ${round}, Player Score = ${playerScore}, Computer Score = ${computerScore}`
-    );
+    scoreBoard.textContent = `Round = ${round}, Player Score = ${playerScore}, Computer Score = ${computerScore}`;
 
     const playerChoice = await getPlayerChoice();
     const computerChoice = getComputerChoice();
 
-    console.log(playRound(playerChoice, computerChoice));
+    result.textContent = playRound(playerChoice, computerChoice);
   }
 
-  console.log(
-    `Best of 5 is Over. The final Score is Player Score = ${playerScore}, Computer Score = ${computerScore}, Draw = ${
-      5 - playerScore - computerScore
-    }`
-  );
+  result.textContent = `Best of 5 is Over. The final Score is Player Score = ${playerScore}, Computer Score = ${computerScore}, Draw = ${
+    5 - playerScore - computerScore
+  }`;
 }
 
 playGame();

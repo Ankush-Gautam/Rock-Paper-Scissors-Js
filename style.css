@@ -11,13 +11,20 @@ button {
   outline: none;
   border-radius: 1rem;
   background: transparent;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  scale: 0.99;
+  opacity: 0.9;
+  cursor: pointer;
 }
 
 #startBtn {
   font-size: 2rem;
 }
 
-button:hover {
-  opacity: 0.9;
-  cursor: pointer;
+.game-status {
+  outline: 1px solid red;
+  height: 300px;
 }
