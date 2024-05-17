@@ -3,69 +3,73 @@ const ROCK = "rock";
 const PAPER = "paper";
 const SCISSORS = "scissors";
 
-let humanScore = 0;
+let playerScore = 0;
 let computerScore = 0;
 
-// logic to get the computer choice
+//DOM ELEMENTS
+const rockBtn = document.querySelector("#rockBtn");
+const paperBtn = document.querySelector("#paperBtn");
+const scissorsBtn = document.querySelector("#scissorsBtn");
+const startBtn = document.querySelector("#startBtn");
+
+// get computer choice
 function getComputerChoice() {
   const choices = [ROCK, PAPER, SCISSORS];
-
-  //generate random index from 0 to 2
   let randomIndex = Math.floor(Math.random() * choices.length);
-
-  //return the choices corresponding to the index
   return choices[randomIndex];
 }
 
-//logic to get the human choice
-function getHumanChoice() {
-  let humanChoice = prompt(
-    "Write your choice(Rock, Paper or Scissors): "
-  ).toLowerCase();
-  return humanChoice;
+//get player choice
+function getPlayerChoice() {
+  return new Promise((resolve) => {
+    //adding event listeners to the buttons
+    rockBtn.addEventListener("click", () => resolve(ROCK));
+    paperBtn.addEventListener("click", () => resolve(PAPER));
+    scissorsBtn.addEventListener("click", () => resolve(SCISSORS));
+  });
 }
 
 //logic to play a single round
-function playRound(humanChoice, computerChoice) {
-  if (![ROCK, PAPER, SCISSORS].includes(humanChoice)) {
+function playRound(playerChoice, computerChoice) {
+  if (![ROCK, PAPER, SCISSORS].includes(playerChoice)) {
     throw new Error("Invalid input. Please choose rock, paper or scissors.");
   }
 
-  if (humanChoice == computerChoice) {
+  if (playerChoice == computerChoice) {
     return "It's a tie!";
   }
 
   if (
-    (humanChoice == ROCK && computerChoice == SCISSORS) ||
-    (humanChoice == PAPER && computerChoice == ROCK) ||
-    (humanChoice == SCISSORS && computerChoice == PAPER)
+    (playerChoice == ROCK && computerChoice == SCISSORS) ||
+    (playerChoice == PAPER && computerChoice == ROCK) ||
+    (playerChoice == SCISSORS && computerChoice == PAPER)
   ) {
-    humanScore++;
-    return `You won! ${humanChoice} beats ${computerChoice}`;
+    playerScore++;
+    return `You won! ${playerChoice} beats ${computerChoice}`;
   } else {
     computerScore++;
-    return `You lose! ${computerChoice} beats ${humanChoice}`;
+    return `You lose! ${computerChoice} beats ${playerChoice}`;
   }
 }
 
 //logic to play the entire game
-function playGame() {
+async function playGame() {
   console.log("The Game of 5 Rounds begin...");
 
   for (let round = 1; round <= 5; round++) {
     console.log(
-      `Round = ${round}, Player Score = ${humanScore}, Computer Score = ${computerScore}`
+      `Round = ${round}, Player Score = ${playerScore}, Computer Score = ${computerScore}`
     );
 
-    const humanChoice = getHumanChoice();
+    const playerChoice = await getPlayerChoice();
     const computerChoice = getComputerChoice();
 
-    console.log(playRound(humanChoice, computerChoice));
+    console.log(playRound(playerChoice, computerChoice));
   }
 
   console.log(
-    `Best of 5 is Over. The final Score is Player Score = ${humanScore}, Computer Score = ${computerScore}, Draw = ${
-      5 - humanScore - computerScore
+    `Best of 5 is Over. The final Score is Player Score = ${playerScore}, Computer Score = ${computerScore}, Draw = ${
+      5 - playerScore - computerScore
     }`
   );
 }

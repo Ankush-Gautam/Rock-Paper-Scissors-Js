@@ -1,0 +1,23 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 2rem;
+  font-size: 4rem;
+  margin: 1rem;
+  outline: none;
+  border-radius: 1rem;
+  background: transparent;
+}
+
+#startBtn {
+  font-size: 2rem;
+}
+
+button:hover {
+  opacity: 0.9;
+  cursor: pointer;
+}
