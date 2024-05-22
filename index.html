@@ -9,21 +9,21 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>Rock Paper Scissors</h1>
+    <h1>✊🏻Rock 🖐🏻Paper ✌🏻Scissors</h1>
 
-    <div class="game-status">
-      <h3 id="score-board"></h3>
-      <h3 id="result"></h3>
+    <div id="game-status" class="hidden">
+      <p id="score-board"></p>
+      <p id="result"></p>
     </div>
 
-    <main>
+    <main class="main">
       <div class="game-container">
-        <button id="rockBtn">🪨</button>
-        <button id="paperBtn">📃</button>
-        <button id="scissorsBtn">✂️</button>
+        <button id="rockBtn" class="hidden">✊🏻</button>
+        <button id="paperBtn" class="hidden">🖐🏻</button>
+        <button id="scissorsBtn" class="hidden">✌🏻</button>
       </div>
 
-      <button id="startBtn">Start Game</button>
+      <button id="startBtn" class="visible">Start New Game</button>
     </main>
 
     <script src="script.js"></script>

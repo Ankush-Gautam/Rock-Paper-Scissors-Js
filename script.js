@@ -5,6 +5,7 @@ const SCISSORS = "scissors";
 
 let playerScore = 0;
 let computerScore = 0;
+let tieScore = 0;
 
 //DOM ELEMENTS
 const rockBtn = document.querySelector("#rockBtn");
@@ -12,6 +13,7 @@ const paperBtn = document.querySelector("#paperBtn");
 const scissorsBtn = document.querySelector("#scissorsBtn");
 const startBtn = document.querySelector("#startBtn");
 
+const gameStatusDiv = document.querySelector("#game-status");
 const scoreBoard = document.querySelector("#score-board");
 const result = document.querySelector("#result");
 
@@ -39,6 +41,7 @@ function playRound(playerChoice, computerChoice) {
   }
 
   if (playerChoice == computerChoice) {
+    tieScore++;
     return "It's a tie!";
   }
 
@@ -55,10 +58,34 @@ function playRound(playerChoice, computerChoice) {
   }
 }
 
+//update score board func
+const roundSpan = document.createElement("span");
+const playerSpan = document.createElement("span");
+const computerSpan = document.createElement("span");
+const tieSpan = document.createElement("span");
+
+function updateScoreBoard(round, playerScore, computerScore, tieScore) {
+  roundSpan.textContent = `Round = ${round}`;
+  playerSpan.textContent = `Player = ${playerScore}`;
+  computerSpan.textContent = `Computer = ${computerScore}`;
+  tieSpan.textContent = `Tie = ${tieScore}`;
+
+  scoreBoard.appendChild(roundSpan);
+  scoreBoard.appendChild(playerSpan);
+  scoreBoard.appendChild(computerSpan);
+  scoreBoard.appendChild(tieSpan);
+
+  return scoreBoard;
+}
+
 //logic to play the entire game
 async function playGame() {
   for (let round = 1; round <= 5; round++) {
-    scoreBoard.textContent = `Round = ${round}, Player Score = ${playerScore}, Computer Score = ${computerScore}`;
+    //show score board as game starts
+    gameStatusDiv.classList.add("game-status");
+    startBtn.textContent = "Restart Game";
+
+    updateScoreBoard(round, playerScore, computerScore, tieScore);
 
     const playerChoice = await getPlayerChoice();
     const computerChoice = getComputerChoice();
@@ -66,9 +93,27 @@ async function playGame() {
     result.textContent = playRound(playerChoice, computerChoice);
   }
 
-  result.textContent = `Best of 5 is Over. The final Score is Player Score = ${playerScore}, Computer Score = ${computerScore}, Draw = ${
-    5 - playerScore - computerScore
-  }`;
+  updateScoreBoard(round, playerScore, computerScore, tieScore);
 }
 
-playGame();
+async function startGame() {
+  return new Promise((resolve) =>
+    startBtn.addEventListener("click", () => {
+      rockBtn.classList.add("visible");
+      paperBtn.classList.add("visible");
+      scissorsBtn.classList.add("visible");
+      gameStatusDiv.classList.add("visible");
+
+      scoreBoard.textContent = "";
+      result.textContent = "";
+      round = 1;
+      playerScore = 0;
+      computerScore = 0;
+      tieScore = 0;
+
+      resolve(playGame());
+    })
+  );
+}
+
+startGame();
